@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G.EDU – IELTS Reading Test 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1a1208;
+  --gold:#D4AF37;
+  --gold-light:#f0e08a;
+  --bg:#fdfcfb;
+  --text:#2d3436;
+  --sidebar-w:280px;
+  --flag-color:#e17055;
+  --hl-yellow:rgba(255,230,0,0.45);
+  --hl-green:rgba(72,199,142,0.45);
+  --hl-blue:rgba(74,144,226,0.45);
+  --hl-pink:rgba(255,118,117,0.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14.5px;line-height:1.7}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);
+  position:fixed;top:0;left:0;height:100vh;overflow-y:auto;
+  display:flex;flex-direction:column;padding:20px 16px 24px;gap:14px;z-index:200;
+}
+.sb-logo{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);letter-spacing:1px;font-weight:700}
+.sb-test-name{font-size:11px;color:#b0a07a;letter-spacing:.5px;margin-top:2px;text-transform:uppercase}
+.sb-student{background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px}
+.sb-student .name{color:#fff;font-weight:600;font-size:13px;word-break:break-word}
+.sb-student .cls{color:#b0a07a;font-size:11px;margin-top:2px}
+.sb-divider{border:none;border-top:1px solid rgba(255,255,255,.1)}
+.sb-section-label{font-size:10px;color:#b0a07a;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+
+/* question map */
+.q-map{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.q-cell{
+  height:30px;border-radius:5px;background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#ccc;cursor:pointer;font-weight:500;
+  border:1.5px solid transparent;transition:all .15s;position:relative;
+}
+.q-cell:hover{background:rgba(212,175,55,.25)}
+.q-cell.answered{background:rgba(212,175,55,.25);color:var(--gold);border-color:rgba(212,175,55,.5)}
+.q-cell.flagged{border-color:var(--flag-color);color:var(--flag-color)}
+.q-cell.answered.flagged{background:rgba(212,175,55,.25);border-color:var(--flag-color)}
+.q-cell.answered.flagged::after{content:'';position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--flag-color)}
+
+/* sidebar buttons */
+.sb-btn{
+  width:100%;padding:9px 12px;border-radius:8px;border:1.5px solid;
+  font-family:'Be Vietnam Pro',sans-serif;font-size:12.5px;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:all .2s;letter-spacing:.3px;
+}
+.sb-btn-flag{border-color:var(--flag-color);color:var(--flag-color);background:transparent}
+.sb-btn-flag:hover{background:rgba(225,112,85,.15)}
+.sb-btn-sheet{border-color:var(--gold);color:var(--gold);background:transparent}
+.sb-btn-sheet:hover{background:rgba(212,175,55,.12)}
+.sb-btn-submit{border-color:var(--gold);color:var(--navy);background:var(--gold);font-weight:700}
+.sb-btn-submit:hover{background:#c9a227}
+
+/* ── MAIN: SPLIT TWO-PANEL LAYOUT ── */
+#main{
+  margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;
+  height:100vh;overflow:hidden;
+}
+.test-header{
+  padding:18px 28px 14px;border-bottom:2px solid var(--gold);flex-shrink:0;
+  background:var(--bg);
+}
+.test-header h1{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)}
+.test-header p{font-size:12.5px;color:#636e72;margin-top:4px}
+
+/* passage tabs */
+.passage-tabs{display:flex;gap:0;border-bottom:2px solid #e0d8c8;padding:0 28px;flex-shrink:0;background:var(--bg)}
+.ptab{
+  padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;
+  border:2px solid transparent;border-bottom:none;margin-bottom:-2px;
+  border-radius:6px 6px 0 0;color:#888;background:transparent;transition:all .2s;
+}
+.ptab.active{border-color:#e0d8c8;border-bottom:2px solid var(--bg);color:var(--navy);background:var(--bg)}
+.ptab:hover:not(.active){color:var(--navy)}
+
+/* split container */
+#split-container{
+  flex:1;display:flex;overflow:hidden;position:relative;min-height:0;
+}
+.split-pane{
+  overflow-y:auto;height:100%;min-width:0;
+}
+#passage-pane{padding:24px 30px;flex:0 0 50%;}
+#questions-pane{padding:24px 30px;border-left:1px solid #e8e0d0;background:#fffefb;flex:1 1 50%;}
+
+#split-divider{
+  width:7px;flex-shrink:0;cursor:col-resize;position:relative;
+  background:#ede6d6;transition:background .15s;
+}
+#split-divider:hover, #split-divider.dragging{background:var(--gold)}
+#split-divider::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:3px;height:36px;border-radius:3px;background:rgba(0,0,0,.18);
+}
+#split-divider:hover::before, #split-divider.dragging::before{background:rgba(255,255,255,.8)}
+body.resizing{cursor:col-resize;user-select:none}
+body.resizing #split-container{user-select:none}
+
+/* passage blocks now only hold text inside passage-pane / questions */
+.passage-block{display:none}
+.passage-block.active{display:block}
+.questions-block{display:none}
+.questions-block.active{display:block}
+
+/* passage text */
+.passage-title{font-family:'Playfair Display',serif;font-size:21px;text-align:center;margin-bottom:6px;color:var(--navy)}
+.passage-subtitle{font-style:italic;text-align:center;font-size:13px;color:#636e72;margin-bottom:18px}
+.passage-text{text-align:justify;line-height:1.85}
+.passage-text p{margin-bottom:14px}
+.para-label{font-weight:700;margin-right:8px}
+
+/* questions area */
+.q-section{margin-bottom:32px}
+.q-section-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:4px;color:var(--navy)}
+.q-section-inst{font-size:13px;color:#555;margin-bottom:16px;line-height:1.6}
+.q-section-inst strong{font-weight:700}
+
+/* question row */
+.q-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;padding:10px 12px;border-radius:8px;border:1px solid transparent;transition:background .2s}
+.q-row:target,.q-row.highlight-row{background:#fef9ec;border-color:#f0e08a}
+.q-num{font-weight:700;min-width:26px;color:var(--navy);padding-top:2px;font-size:13.5px}
+.flag-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:0;line-height:1;min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;opacity:.4;transition:opacity .2s;padding-top:2px}
+.flag-btn:hover{opacity:.9}
+.flag-btn.active{opacity:1;filter:drop-shadow(0 0 3px var(--flag-color))}
+.q-content{flex:1}
+
+/* tf/yn radio */
+.tf-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tf-btn{
+  padding:5px 14px;border-radius:20px;border:1.5px solid #ddd;
+  font-size:12.5px;font-weight:600;cursor:pointer;background:#fff;transition:all .15s;
+}
+.tf-btn:hover{border-color:var(--gold);color:var(--gold)}
+.tf-btn.selected{background:var(--gold);border-color:var(--gold);color:#fff}
+
+/* fill-in */
+.fill-input{
+  border:none;border-bottom:1.5px solid #ccc;padding:3px 8px;
+  font-family:'Be Vietnam Pro',sans-serif;font-size:14px;min-width:160px;
+  background:transparent;color:var(--text);outline:none;transition:border-color .2s;
+}
+.fill-input:focus{border-color:var(--gold)}
+select.letter-select{
+  -webkit-appearance:none;-moz-appearance:none;appearance:none;
+  cursor:pointer;font-weight:700;text-align:center;padding:3px 18px 3px 8px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%23999'/></svg>");
+  background-repeat:no-repeat;background-position:right 4px center;
+}
+select.letter-select option{font-weight:400}
+
+/* MCQ */
+.mcq-options{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.mcq-opt{
+  display:flex;align-items:flex-start;gap:9px;padding:8px 12px;border-radius:7px;
+  border:1.5px solid #e8e0d0;cursor:pointer;transition:all .15s;background:#fff;
+}
+.mcq-opt:hover{border-color:var(--gold);background:#fefdf7}
+.mcq-opt.selected{border-color:var(--gold);background:#fef8e1}
+.mcq-opt input[type=radio],.mcq-opt input[type=checkbox]{display:none}
+.opt-letter{font-weight:700;min-width:18px;color:#888;font-size:13px}
+.mcq-opt.selected .opt-letter{color:var(--gold)}
+
+/* section header in passage */
+.passage-section-head{font-weight:700;margin-bottom:18px;font-size:15px;border-bottom:1px solid #e8e0d0;padding-bottom:8px;color:var(--navy)}
+
+/* ── HIGHLIGHT TOOLBAR ── */
+#hl-toolbar{
+  position:fixed;display:none;background:var(--navy);border-radius:30px;
+  padding:6px 10px;gap:7px;align-items:center;z-index:9999;
+  box-shadow:0 4px 20px rgba(0,0,0,.35);
+}
+.hl-swatch{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .15s}
+.hl-swatch:hover{transform:scale(1.2)}
+.hl-swatch[data-color="yellow"]{background:#FFE600}
+.hl-swatch[data-color="green"]{background:#48C78E}
+.hl-swatch[data-color="blue"]{background:#4A90E2}
+.hl-swatch[data-color="pink"]{background:#FF7675}
+.hl-erase{background:none;border:none;color:#fff;cursor:pointer;font-size:13px;padding:0 4px;opacity:.7}
+.hl-erase:hover{opacity:1}
+
+/* highlight spans */
+.hl-yellow{background:var(--hl-yellow);border-radius:2px}
+.hl-green{background:var(--hl-green);border-radius:2px}
+.hl-blue{background:var(--hl-blue);border-radius:2px}
+.hl-pink{background:var(--hl-pink);border-radius:2px}
+
+/* ── MODALS ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;
+  display:none;align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex}
+.modal-box{
+  background:#fff;border-radius:14px;padding:32px 36px;max-width:460px;width:90%;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);animation:modalIn .25s ease;
+}
+@keyframes modalIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-title{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:12px;color:var(--navy)}
+.modal-body{font-size:14px;color:#444;line-height:1.7;margin-bottom:22px}
+.modal-body strong{color:var(--navy)}
+.modal-actions{display:flex;gap:12px;justify-content:flex-end}
+.btn-cancel{padding:9px 20px;border-radius:8px;border:1.5px solid #ddd;background:#fff;cursor:pointer;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif}
+.btn-cancel:hover{background:#f5f5f5}
+.btn-confirm{padding:9px 22px;border-radius:8px;border:none;background:var(--gold);color:#fff;font-weight:700;cursor:pointer;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif}
+.btn-confirm:hover{background:#c9a227}
+
+/* flag panel overlay */
+#flag-panel{
+  position:fixed;top:0;right:-380px;width:360px;height:100vh;
+  background:#fff;box-shadow:-4px 0 30px rgba(0,0,0,.15);z-index:500;
+  transition:right .3s ease;overflow-y:auto;padding:24px 20px;
+}
+#flag-panel.open{right:0}
+.fp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.fp-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--navy)}
+.fp-close{background:none;border:none;font-size:20px;cursor:pointer;color:#888}
+.fp-item{
+  padding:12px;border-radius:8px;border:1px solid #e8e0d0;margin-bottom:10px;
+  cursor:pointer;transition:border-color .2s;
+}
+.fp-item:hover{border-color:var(--flag-color)}
+.fp-item-num{font-weight:700;color:var(--flag-color);font-size:13px}
+.fp-item-ans{font-size:13px;color:#555;margin-top:3px;font-style:italic}
+
+/* answer sheet overlay */
+#answer-sheet{
+  position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:800;
+  display:none;align-items:center;justify-content:center;
+}
+#answer-sheet.open{display:flex}
+.as-box{
+  background:#fff;border-radius:14px;padding:28px 32px;max-width:700px;width:95%;
+  max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+.as-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:4px}
+.as-sub{font-size:13px;color:#888;margin-bottom:20px}
+.as-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:24px}
+.as-cell{
+  border:1.5px solid #e8e0d0;border-radius:8px;padding:10px 8px;text-align:center;
+}
+.as-cell-num{font-size:11px;color:#888;margin-bottom:4px}
+.as-cell-ans{font-size:13px;font-weight:600;color:var(--navy);min-height:20px;word-break:break-word}
+.as-close{padding:10px 28px;border-radius:8px;border:none;background:var(--navy);color:var(--gold);font-weight:700;cursor:pointer;font-size:14px;font-family:'Be Vietnam Pro',sans-serif}
+
+/* ── RESULT SCREEN ── */
+#result-screen{
+  display:none;min-height:100vh;background:var(--bg);
+  align-items:flex-start;justify-content:center;padding:28px 20px;
+}
+#result-screen.show{display:flex}
+.result-card{
+  background:#fff;border-radius:16px;padding:28px 36px 32px;max-width:1180px;width:100%;
+  box-shadow:0 8px 40px rgba(0,0,0,.1);position:relative;
+}
+.result-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:6px}
+.result-topbar-left{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.result-logo{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);line-height:1}
+.result-test-name{font-size:12.5px;color:#888;margin-top:2px}
+.result-score-pill{
+  display:flex;align-items:center;gap:10px;border:2.5px solid var(--gold);
+  border-radius:40px;padding:6px 18px 6px 6px;
+}
+.result-score-circle{
+  width:46px;height:46px;border-radius:50%;background:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#fff;flex-shrink:0;
+}
+.result-score-pill .denom{font-size:12px;color:#888}
+.result-score-pill .num{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy)}
+.result-student-pill{
+  font-size:13px;color:#555;background:#f8f6f0;border:1px solid #e8e0d0;
+  border-radius:20px;padding:7px 16px;font-weight:600;
+}
+.result-student-pill strong{color:var(--navy)}
+.btn-review{
+  background:var(--navy);color:var(--gold);border:none;border-radius:8px;
+  padding:11px 22px;font-family:'Be Vietnam Pro',sans-serif;font-weight:700;
+  font-size:13.5px;cursor:pointer;display:flex;align-items:center;gap:7px;
+  transition:background .2s;white-space:nowrap;
+}
+.btn-review:hover{background:#2a1d10}
+.result-divider{border:none;border-top:1px solid #e8e0d0;margin:18px 0 14px}
+.result-review-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--navy);margin-bottom:12px;font-weight:700}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.rev-cell{
+  border:1.5px solid #e8e0d0;border-radius:7px;padding:7px 4px;text-align:center;
+}
+.rev-cell-num{font-size:10px;color:#888;margin-bottom:2px}
+.rev-cell-ans{font-size:12px;font-weight:700;color:var(--navy);min-height:16px;word-break:break-word;line-height:1.3}
+.result-note{margin-top:18px;padding:11px 14px;background:#fef9ec;border-radius:8px;font-size:12.5px;color:#7a6200}
+.result-note-warn{margin-top:10px;background:#fdf0e3;border:1px solid #f0c896;color:#8a4a10}
+.result-note-warn strong{color:#6b3a0c}
+
+/* review banner shown over main content when reviewing a submitted test */
+#review-banner{
+  display:none;position:fixed;top:0;left:var(--sidebar-w);right:0;z-index:150;
+  background:#2a1d10;color:var(--gold);padding:8px 20px;font-size:13px;font-weight:600;
+  align-items:center;gap:12px;
+}
+#review-banner.show{display:flex}
+#review-banner .rb-back{
+  margin-left:auto;background:var(--gold);color:var(--navy);border:none;border-radius:6px;
+  padding:6px 14px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;
+}
+#review-banner .rb-back:hover{background:#c9a227}
+body.review-mode input,body.review-mode select,body.review-mode .tf-btn,
+body.review-mode .mcq-opt,body.review-mode .flag-btn,body.review-mode .sb-btn-submit{
+  pointer-events:none;opacity:.85;
+}
+body.review-mode .sb-btn-flag,body.review-mode .sb-btn-sheet{pointer-events:auto;opacity:1}
+body.review-mode .q-cell{cursor:pointer;pointer-events:auto}
+
+/* LOGIN SCREEN */
+#login-screen{
+  position:fixed;inset:0;background:var(--navy);z-index:9000;
+  display:flex;align-items:center;justify-content:center;
+}
+.login-box{
+  background:#fff;border-radius:16px;padding:44px 48px;max-width:480px;width:90%;
+  text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);
+}
+.login-logo{font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);margin-bottom:4px}
+.login-sub{font-size:13px;color:#888;margin-bottom:6px}
+.login-test{font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);margin-bottom:24px}
+.login-notice{
+  background:#fef9ec;border:1px solid #f0e08a;border-radius:8px;
+  padding:12px 14px;font-size:12.5px;color:#7a6200;text-align:left;margin-bottom:22px;line-height:1.6;
+}
+.login-field{margin-bottom:16px;text-align:left}
+.login-field label{font-size:12.5px;font-weight:600;color:#555;display:block;margin-bottom:5px}
+.login-field input{
+  width:100%;padding:11px 14px;border:1.5px solid #ddd;border-radius:8px;
+  font-family:'Be Vietnam Pro',sans-serif;font-size:14.5px;outline:none;transition:border-color .2s;
+  text-transform:uppercase;
+}
+.login-field input:focus{border-color:var(--gold)}
+.login-btn{
+  width:100%;padding:13px;border-radius:8px;border:none;background:var(--gold);
+  color:#fff;font-family:'Be Vietnam Pro',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;transition:background .2s;margin-top:6px;
+}
+.login-btn:hover{background:#c9a227}
+.login-error{color:#e17055;font-size:13px;margin-top:10px;min-height:20px}
+
+/* TIMER */
+#timer-bar{
+  position:fixed;top:0;left:var(--sidebar-w);right:0;
+  background:var(--navy);color:var(--gold);
+  padding:8px 20px;font-size:13px;font-weight:600;z-index:100;
+  display:flex;align-items:center;gap:10px;
+}
+#timer-display{font-family:'Playfair Display',serif;font-size:16px;letter-spacing:1px}
+#timer-bar.warning{background:#c0392b;color:#fff}
+/* main top offset handled via margin-top to clear fixed timer bar */
+#main{margin-top:44px;height:calc(100vh - 44px)}
+
+/* summary fill word bank */
+.word-bank{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding:12px;
+  background:#f8f6f0;border-radius:8px;border:1px solid #e8e0d0;
+}
+.wb-item{
+  padding:5px 12px;border-radius:20px;background:#fff;border:1.5px solid #ddd;
+  font-size:13px;cursor:pointer;transition:all .15s;
+}
+.wb-item:hover{border-color:var(--gold);color:var(--gold)}
+
+.q-label{font-size:13.5px;color:var(--text);line-height:1.7;margin-bottom:4px}
+.q-label-block{display:block;margin-bottom:12px;line-height:1.85;font-size:14px}
+
+/* scroll target offset */
+.q-row{scroll-margin-top:56px}
+</style>
+</head>
+<body>
+
+
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">G.EDU</div>
+    <div class="login-sub">IELTS Academic Reading</div>
+    <div class="login-test">Reading Test 6</div>
+    <div class="login-notice">
+      Vui lòng nhập Họ tên và Lớp bằng <strong>CHỮ IN HOA</strong> (ví dụ: NGUYEN VAN A).<br>
+      Thông tin chính xác sẽ giúp hệ thống ghi nhận và khôi phục bài làm nếu bạn thoát hoặc tải lại trang.
+    </div>
+    <div class="login-field">
+      <label>HỌ VÀ TÊN HỌC SINH</label>
+      <input type="text" id="inp-name" placeholder="HỌ VÀ TÊN" autocomplete="off">
+    </div>
+    <div class="login-field">
+      <label>LỚP HỌC</label>
+      <input type="text" id="inp-class" placeholder="LỚP HỌC" autocomplete="off">
+    </div>
+    <div class="login-error" id="login-error"></div>
+    <button class="login-btn" onclick="doLogin()">BẮT ĐẦU LÀM BÀI</button>
+  </div>
+</div>
+
+<!-- TIMER BAR -->
+<div id="timer-bar" style="display:none">
+  <span>⏱ Thời gian còn lại:</span>
+  <span id="timer-display">60:00</span>
+  <span style="margin-left:auto;font-size:12px;opacity:.7">IELTS Reading Test 6</span>
+</div>
+
+<!-- HIGHLIGHT TOOLBAR -->
+<div id="hl-toolbar">
+  <div class="hl-swatch" data-color="yellow" title="Vàng" onclick="applyHighlight('yellow')"></div>
+  <div class="hl-swatch" data-color="green" title="Xanh lá" onclick="applyHighlight('green')"></div>
+  <div class="hl-swatch" data-color="blue" title="Xanh dương" onclick="applyHighlight('blue')"></div>
+  <div class="hl-swatch" data-color="pink" title="Hồng" onclick="applyHighlight('pink')"></div>
+  <button class="hl-erase" onclick="removeHighlight()" title="Xoá highlight">✕</button>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div>
+    <div class="sb-logo">G.EDU</div>
+    <div class="sb-test-name">Reading Test 6</div>
+  </div>
+  <div class="sb-student">
+    <div class="name" id="sb-name">—</div>
+    <div class="cls" id="sb-class">—</div>
+  </div>
+  <hr class="sb-divider">
+  <div>
+    <div class="sb-section-label">Question Map</div>
+    <div class="q-map" id="q-map"></div>
+  </div>
+  <hr class="sb-divider">
+  <button class="sb-btn sb-btn-flag" onclick="openFlagPanel()">🚩 Xem câu đánh dấu</button>
+  <button class="sb-btn sb-btn-sheet" onclick="openAnswerSheet()">📋 Xem Answer Sheet</button>
+  <button class="sb-btn sb-btn-submit" onclick="openSubmitModal()">NỘP BÀI</button>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main">
+  <div class="test-header">
+    <h1>IELTS Academic Reading Test 6</h1>
+    <p>40 questions · 60 minutes · G.EDU</p>
+  </div>
+
+  <!-- PASSAGE TABS -->
+  <div class="passage-tabs">
+    <div class="ptab active" onclick="switchPassage(1)">Passage 1</div>
+    <div class="ptab" onclick="switchPassage(2)">Passage 2</div>
+    <div class="ptab" onclick="switchPassage(3)">Passage 3</div>
+  </div>
+
+  <!-- SPLIT CONTAINER: passage left / questions right, resizable -->
+  <div id="split-container">
+    <div class="split-pane" id="passage-pane">
+      <!-- ══════ PASSAGE 1 TEXT ══════ -->
+      <div class="passage-block active" id="passage-1">
+      <div class="passage-title">Deep sea discovery</div>
+          <div class="passage-subtitle">Recent research has provided new insights into how fish communicate</div>
+          <div class="passage-text">
+            <p><span class="para-label">A</span>Nico Michiels is an ecologist from the University of Tubingen in Germany who spends part of each year in Egypt, where he dives in the Red Sea, observing fish life and gathering data on its coral reefs. In September 2007 he decided to find out how far red light could penetrate the ocean depths. Seawater absorbs different colours at different depths, and as an experienced diver, Michiels was aware that red light is extinguished not far below the surface whereas blue-green light penetrates deeper. To find out the depth at which red disappeared in this particular ocean, however, he attached a special plastic filter to his dive mask which was designed to block out all colours except red. Then he began to descend. In theory, once he reached about 15 metres, he should have been plunged into darkness. Instead, something totally unexpected happened. Sure enough, 20 metres down it was as dark as night. 'All the fish disappeared. With no light from the surface, they were effectively black and had become invisible,' he says. But it didn't stay black for long. Then I saw a group of goby fish with bright red eyes lit up against the background. After that red spots began to show up all over the reef.</p>
+            <p><span class="para-label">B</span>Even with the red filter removed, Michiels could pick them out without much trouble once his eyes grew accustomed to the gloom. It seems strange that no diver or researcher had spotted all this red before, but as Michiels points out, no one saw it because no one expected to see it. On that one dive Michiels discovered three fish species with prominent red markings, and has found many others since.</p>
+            <p><span class="para-label">C</span>But how can fish appear red where there's no red light? Ordinary red pigments* look red because they reflect red light while absorbing all other wavelengths. At 20 metres down, there had to be some other explanation for the red Michiels was seeing. He suspected fluorescence. Fluorescent pigments behave differently from ordinary ones: they receive incoming light of one wavelength, for example blue, and emit light of a longer wavelength, in this case red. On the reef in the Red Sea during daytime, the most likely explanation was that the predominantly blue and green wavelengths at depth triggered the emission of fluorescent red in the fish.</p>
+            <p><span class="para-label">D</span>With only a week left in Egypt, and lacking the equipment to confirm that the fish were fluorescent, Michiels photographed as many of them as he could. Then once back in Germany, he bought an assortment of tropical fish and installed them in his lab. Here he confirmed that the fish did indeed fluoresce. In most of the fish he looked at, the fluorescence could be traced to specialised pigment cells that lie in the skin beneath the scales. These cells contain 'guanine crystals', which scatter light to give fish their silvery sheen. However, Michiels says they are still not sure exactly what is fluorescing. 'It's not the crystals themselves. It's probably a fluorescent protein built into the crystals, and we have a suspicion that it might be made by bacteria.'</p>
+            <p><span class="para-label">E</span>Intrigued, Michiels began a systematic search for red fluorescence in reef fish. He and his colleagues, Nils Anthes and Dennis Sprenger, have identified some 50 species with red fluorescence. The most common markings tend to be on the body towards the head and to a lesser extent around the eyes, and then the fins. To Michiels, the distribution of these markings is one of the strongest indications that red fluorescence has a very particular function: communication with other members of the species. According to several recent studies, a whole range of animals employ fluorescence as a natural highlighter to boost the visibility of body parts they use to signal, for example to ward off enemies. In reef fish, the red tends to be confined to parts of the body used to signal, suggesting these markings serve a similar function. But instead of highlighting an existing colour, the fluorescence gives the fish a colour that otherwise wouldn't exist. For example, fish commonly use eye rings to signal that they are present and their direction of gaze, and Michiels suspects that red-eyed gobies use signals to indicate their location and keep their group together.</p>
+            <p><span class="para-label">F</span>Red light, whatever its source, doesn't travel far through water, which suggests signals are intended to be private, seen only by nearby fish of the right species. There are several lines of evidence to support this, says Michiels. And closely related species do not have completely identical markings, which suggests they might be important in species recognition.</p>
+            <p><span class="para-label">G</span>Michiels suspects red fluorescence has another important role for some reef fish: helping them blend in. During his first dive with the red filter, he noticed corals glow a dark but faint red too. Against this irregular red background, a fish that glows red all over would be hard to distinguish. More compelling for Michiels is the case of the scorpionfish, which lies perfectly still until food swims past which it then sucks in.</p>
+            <p><span class="para-label">H</span>Yet if red plays any part in a fish's life then it must be able to see it. Fish that live in a world dominated by blue-green light are assumed to have eyes tuned to those wavelengths, and most marine fish that have been studied are thought incapable of seeing red. One exception is the seahorse, whose eyes are sensitive to red. As for the other fish, it remains to be seen.</p>
+          </div>
+
+          <!-- Q1–6 TRUE/FALSE/NOT GIVEN -->
+      </div>
+      <!-- ══════ PASSAGE 2 TEXT ══════ -->
+      <div class="passage-block" id="passage-2">
+      <div class="passage-title">Jellyfish – The Dominant Species</div>
+          <div class="passage-text">
+            <p><span class="para-label">A</span>Jellyfish have become the curse of beach holidays, permeating every ocean on the globe, thriving in the Arctic and the tropics. In an ever-changing world where other species struggle to endure, jellyfish populations are on the rise.<br>
+            To the untrained eye, these creatures drift aimlessly on the oceans' currents and appear benign. In addition, they lack sharp claws, piercing teeth or even a brain. Despite this, they are armed with an amazing arsenal of weapons, especially the stinging power of their tentacles. As a result, jellyfish are among the most-feared, least-understood creatures in the seas.</p>
+            <p><span class="para-label">B</span>According to Dr Monty Graham, a jellyfish scientist at the University of South Alabama, US, 'Jellyfish are a pretty good group of animals to track coastal ecosystems. When you start to see jellyfish numbers grow, that usually indicates a stressed system.' While populations appear to be down this year, Dr Graham sees 'a statistically solid increase' over the longer term.<br>
+            This increase first gained attention in the 1980s when a huge number of jellyfish, Atlantic Ocean natives Mnemiopsis leidyi, devastated the Black Sea, an ecosystem already weakened by overfishing of anchovies. Scientists believe that this species of jellyfish came in on the bottom of a ship and then rapidly multiplied, feeding on anchovy eggs and the plankton that young fish rely on.</p>
+            <p><span class="para-label">C</span>Dense jellyfish aggregations can be a natural feature of healthy ocean ecosystems, but a clear picture is now emerging of more severe and frequent jellyfish outbreaks worldwide. Dr Anthony Richardson, from the University of Queensland, Australia, explains that once jellyfish gain a foothold, if conditions are right they can establish a massive population at the expense of other ocean life. The problem is that parts of the ocean might switch from being dominated by fish to being dominated by jellyfish.</p>
+            <p><span class="para-label">D</span>A study done by Richardson and his colleagues explores the causes behind jellyfish infestation, and the need for swift, decisive action to stem jellyfish takeover. Jellyfish outbreaks are linked directly to human actions, including overfishing, the input of fertilizer and sewage into the ocean, and climate change.<br>
+            Overfishing has removed fish from marine ecosystems at astounding rates. According to Richardson, this has made it possible for jellyfish to take their place. 'This is because small fish appear to keep jellyfish in check by predation (on jellyfish when they are very small) and competition (when feeding). So, once we remove fish, jellyfish can proliferate.<br>
+            Eutrophication is another human-caused change in the ocean that has likely contributed to jellyfish explosions. Eutrophication is an increase of nitrogen and phosphorus in the ocean, largely caused by fertilizer and waste run-off. This leads to algae blooms, which lower oxygen in the marine ecosystem, creating so-called 'dead zones', which have been increasing dramatically around the world. According to Richardson, these low-oxygen waters give jellyfish the advantage. 'Fish avoid low-oxygen waters but jellyfish, having lower oxygen demands, not only survive but can thrive in these conditions as there is less predation and competition from fish.</p>
+            <p><span class="para-label">E</span>Furthermore, Richardson and his colleagues speculate that climate change may expand the traditional geographical range of jellyfish. 'As water warms, tropical species are moving towards the poles. Many venomous jellyfish species are tropical and could move into more densely populated subtropical and temperate regions.</p>
+            <p><span class="para-label">F</span>Once jellyfish appear en masse in an ecosystem they can make it very difficult for fish to stage a comeback. By feeding on fish, the jellyfish successfully prevent fish from returning to their normal population numbers, says Richardson. 'One can thus think of two alternate states with each being stable: one dominated by fish and the other by jellyfish. Unfortunately, where there is a jellyfish-dominated state then this does not support the nutritional needs of other fish, marine mammals, and seabirds.' In other words an ecosystem that loses fish also loses the species that depend on fish for survival.<br>
+            This state has been defined as a 'monoculture of jellyfish', an apt analogy since the situation shares similarities with other monocultures. When the rich biodiversity of tropical forests is replaced by plantations growing a single species of tree, an area of rich variety becomes a desert in terms of biodiversity, as do ocean ecosystems when jellyfish become the dominant species.<br>
+            One result of large jellyfish populations is the economic effect it has had on the fishing industry. In the Gulf of Mexico, shrimp fishermen are struggling with a jellyfish boom that fills nets, causing them to break and resulting in millions of dollars in losses.</p>
+            <p><span class="para-label">G</span>Experts say that a greater understanding of jellyfish, including their ideal water temperature and feeding habits, is necessary to determine with certainty what is causing the recent massive invasion, and to come up with ways to combat it.<br>
+            Due to the difficulty of turning ecosystems around once jellyfish have become dominant, Richardson and his colleagues propose focusing on 'prevention rather than cure'. They recommend a halt to overfishing small fish that are vital to keeping jellyfish in check, reducing the amount of fertilizer and sewage running off into the oceans, and finally, if possible, confronting climate change.</p>
+          </div>
+
+          <!-- Q14–17 Matching sections -->
+      </div>
+      <!-- ══════ PASSAGE 3 TEXT ══════ -->
+      <div class="passage-block" id="passage-3">
+      <div class="passage-title">The Pirahã people of Brazil</div>
+          <div class="passage-subtitle">The Pirahã language has stirred up debate among experts</div>
+          <div class="passage-text">
+            <p>The Pirahã tribe live deep in Brazil's Amazon forest, and their language is hotly debated by linguists. Since 1977, the ethnologist Daniel Everett has spent a total of seven years living with the Pirahã and has committed his career to studying their puzzling speech. Indeed, he was uncertain for so long about what he was actually hearing while living among the Pirahã that he waited nearly three decades before publishing his findings.</p>
+            <p>The debate over the Pirahã language goes right to the core of the riddle regarding how Homo sapiens managed to develop vocal communication. Although bees dance, birds sing and whales even sing with syntax*, human language is unique, if only for the reason that it enables humans to piece together never-before-constructed thoughts, and be infinitely imaginative — think of Shakespeare's plays or Einstein's theory of relativity.</p>
+            <p>Linguistics generally focuses on what features all human languages have in common, but the Pirahã language departs from what some academics have long maintained are essential and inalienable features of all human languages. Most of all, it may be unique for not employing subordinate clauses. Instead of saying, 'When I have finished eating, I will speak to you,' the Pirahã say, 'I finish eating, I speak with you.' Equally perplexing, the Pirahã appear not to use numbers. During the time he spent with them, Everett never heard words like 'all', 'every' and 'more'. There is one word, 'hoi', that comes close to the numeral 1, but it can also mean 'small'. And they were never observed to count without language, on their fingers for example, in order to determine important tasks in village life like how many pieces of meat to grill.</p>
+            <p>Everett's findings among the Pirahã have brought new life to a controversial theory by the linguist Benjamin Whorf, who suggested that people are only capable of constructing thoughts for which they possess actual words. Or to put it another way, because they have no words for numbers, they cannot even begin to understand the concept of numbers or arithmetic.</p>
+            <p>The Warlpiri language — spoken by a group of Australian Aborigines — like that of the Pirahã, features only the most rudimentary system of counting. However, the Warlpiri people had no difficulty counting farther than three in a foreign language, in this case English, but when Everett attempted to teach the Pirahã how to count in Portuguese like other Brazilians, not a single person could count to 10.</p>
+            <p>Everett is at pains to point out that the Pirahã are not unintelligent, for their thinking is not any slower than that of the average university student. And although they reside in a remote part of the forest, they do not live in complete genetic isolation, but mix with people from the surrounding populations and share similar intellectual capacities with their neighbours whose languages do contain numbers.</p>
+            <p>Eventually, after some 30 years of research, Everett has come up with a surprising explanation for the peculiarities of the Pirahã language. Language, he believes, is created by a people's way of life, their belief system and values. In this way, variety in human language is almost limitless, a function of the human capacity to live in different ways, such as in the forest. What Everett's research has revealed is that the central tenet of the Pirahã culture is to live in the here and now.</p>
+            <p>The only thing of importance that is worth communicating to others is what is being experienced at that very moment, though this can often be described with great care and detail. In consequence, the language has no means to conjugate verbs in order to describe 'yesterday' or 'last week' or 'when I was a child'. Their very literal view of the world curtails abstract thought, and many features taken for granted among other peoples are absent among the Pirahã, such as a creation myth, story telling and painting. One manifestation of their beliefs is that by tradition the names they give their children are not particularly imaginative. Often they are named after other members of the tribe with whom they share similar character traits. Standing out or being different is not encouraged by the Pirahã, and this is reflected in their perhaps colourless choice of names.</p>
+            <p>Everett anticipated that these findings would be controversial and the reaction came as expected. Until this point, many linguists had defended the theories of Noam Chomsky, according to which all human languages have a universal grammar. What exactly makes up this universal grammar is the subject of debate, but at its heart is the concept of 'recursion', which is defined as replication of a structure within its single parts. Without it, humans would not be able to view separate thoughts as subordinate parts of a complex whole. And, most pertinent to Everett's work, there would not be subordinate clauses, which are responsible for translating the concept of recursion into grammar. But if the Pirahã do not form subordinate clauses, then recursion cannot explain the uniqueness of human language, and this would negate Chomsky's theories.</p>
+            <p>The logical way forward now would be to try to prove that the Pirahã can think in a recursive fashion. The only problem is, nobody can confirm or deny Everett's observations since no other researcher can speak Pirahã as well as he does. Despite this, several researchers — including two of Chomsky's colleagues — will soon travel to Brazil to check his claims. My concern is that soon the Pirahã will become one more scientific oddity with every aspect of their lives being exploited and analysed.</p>
+          </div>
+
+          <!-- Q27–32 MCQ -->
+      </div>
+    </div>
+
+    <div id="split-divider"></div>
+
+    <div class="split-pane" id="questions-pane">
+      <!-- ══════ PASSAGE 1 QUESTIONS ══════ -->
+      <div class="questions-block active" id="questions-1">
+      <div class="q-section">
+            <div class="q-section-title">Questions 1–6</div>
+            <div class="q-section-inst">Choose <strong>TRUE</strong> if the statement agrees with the information given in the text, choose <strong>FALSE</strong> if the statement contradicts the information, or choose <strong>NOT GIVEN</strong> if there is no information on this.</div>
+
+            <div class="q-row" id="anchor-1">
+              <div class="q-num">1</div>
+              <button class="flag-btn" id="flag-1" onclick="toggleFlag(1)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">During his 2007 dive, Michiels expected to encounter total darkness at about 15 metres.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(1,'TRUE')">TRUE</button>
+                  <button class="tf-btn" onclick="selectTF(1,'FALSE')">FALSE</button>
+                  <button class="tf-btn" onclick="selectTF(1,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-2">
+              <div class="q-num">2</div>
+              <button class="flag-btn" id="flag-2" onclick="toggleFlag(2)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">Michiels could see the red markings on fish without the aid of the red filter.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(2,'TRUE')">TRUE</button>
+                  <button class="tf-btn" onclick="selectTF(2,'FALSE')">FALSE</button>
+                  <button class="tf-btn" onclick="selectTF(2,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-3">
+              <div class="q-num">3</div>
+              <button class="flag-btn" id="flag-3" onclick="toggleFlag(3)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">Other divers had assumed they would see fish with red markings.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(3,'TRUE')">TRUE</button>
+                  <button class="tf-btn" onclick="selectTF(3,'FALSE')">FALSE</button>
+                  <button class="tf-btn" onclick="selectTF(3,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-4">
+              <div class="q-num">4</div>
+              <button class="flag-btn" id="flag-4" onclick="toggleFlag(4)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">All the fish with red markings that Michiels found during his diving expeditions came from the Red Sea.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(4,'TRUE')">TRUE</button>
+                  <button class="tf-btn" onclick="selectTF(4,'FALSE')">FALSE</button>
+                  <button class="tf-btn" onclick="selectTF(4,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-5">
+              <div class="q-num">5</div>
+              <button class="flag-btn" id="flag-5" onclick="toggleFlag(5)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">Michiels first thought of the possibility that fish could fluoresce while he was in Germany.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(5,'TRUE')">TRUE</button>
+                  <button class="tf-btn" onclick="selectTF(5,'FALSE')">FALSE</button>
+                  <button class="tf-btn" onclick="selectTF(5,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-6">
+              <div class="q-num">6</div>
+              <button class="flag-btn" id="flag-6" onclick="toggleFlag(6)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">Michiels remains uncertain as to what creates fluorescence in fish.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(6,'TRUE')">TRUE</button>
+                  <button class="tf-btn" onclick="selectTF(6,'FALSE')">FALSE</button>
+                  <button class="tf-btn" onclick="selectTF(6,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q7–13 NOTE COMPLETION -->
+          <div class="q-section">
+            <div class="q-section-title">Questions 7–13</div>
+            <div class="q-section-inst">Complete the notes below. Write <strong>ONE WORD ONLY</strong> from the passage for each answer.</div>
+            <div class="passage-section-head">Michiels's findings</div>
+
+            <p style="margin-bottom:14px;font-size:14px"><strong>Michiels has observed:</strong></p>
+            <div class="q-row" id="anchor-7">
+              <div class="q-num">7</div>
+              <button class="flag-btn" id="flag-7" onclick="toggleFlag(7)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">• markings mainly near the </span>
+                <input class="fill-input" id="ans-7" oninput="saveAnswer(7)" placeholder="…" style="min-width:120px">
+              </div>
+            </div>
+
+            <p style="margin:14px 0 10px;font-size:14px"><strong>Some of Michiels's beliefs are that:</strong></p>
+            <div class="q-row" id="anchor-8">
+              <div class="q-num">8</div>
+              <button class="flag-btn" id="flag-8" onclick="toggleFlag(8)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">• red fluorescence is used specifically for </span>
+                <input class="fill-input" id="ans-8" oninput="saveAnswer(8)" placeholder="…" style="min-width:120px">
+                <span class="q-label"> purposes</span>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-9">
+              <div class="q-num">9</div>
+              <button class="flag-btn" id="flag-9" onclick="toggleFlag(9)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">• fish, like some animals, use fluorescence to keep </span>
+                <input class="fill-input" id="ans-9" oninput="saveAnswer(9)" placeholder="…" style="min-width:120px">
+                <span class="q-label"> away</span>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-10">
+              <div class="q-num">10</div>
+              <button class="flag-btn" id="flag-10" onclick="toggleFlag(10)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">• gobies depend on red fluorescence to show their </span>
+                <input class="fill-input" id="ans-10" oninput="saveAnswer(10)" placeholder="…" style="min-width:120px">
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-11">
+              <div class="q-num">11</div>
+              <button class="flag-btn" id="flag-11" onclick="toggleFlag(11)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">• there are variations in the markings of fish among those </span>
+                <input class="fill-input" id="ans-11" oninput="saveAnswer(11)" placeholder="…" style="min-width:120px">
+                <span class="q-label"> which are very similar</span>
+              </div>
+            </div>
+
+            <p style="margin:14px 0 10px;font-size:14px"><strong>Other benefits of red fluorescence:</strong></p>
+            <div class="q-row" id="anchor-12">
+              <div class="q-num">12</div>
+              <button class="flag-btn" id="flag-12" onclick="toggleFlag(12)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">• fish cannot easily be seen near backgrounds of </span>
+                <input class="fill-input" id="ans-12" oninput="saveAnswer(12)" placeholder="…" style="min-width:120px">
+                <span class="q-label"> which give off a red light</span>
+              </div>
+            </div>
+
+            <p style="margin:14px 0 10px;font-size:14px"><strong>The ability to see red amongst fish:</strong></p>
+            <div class="q-row" id="anchor-13">
+              <div class="q-num">13</div>
+              <button class="flag-btn" id="flag-13" onclick="toggleFlag(13)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">• the only fish proven to have this ability is the </span>
+                <input class="fill-input" id="ans-13" oninput="saveAnswer(13)" placeholder="…" style="min-width:120px">
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- ══════ PASSAGE 2 QUESTIONS ══════ -->
+      <div class="questions-block" id="questions-2">
+      <div class="q-section">
+            <div class="q-section-title">Questions 14–17</div>
+            <div class="q-section-inst"><strong>Reading Passage 2 has seven sections, A–G.</strong><br>Which section contains the following information?</div>
+
+            <div class="q-row" id="anchor-14">
+              <div class="q-num">14</div>
+              <button class="flag-btn" id="flag-14" onclick="toggleFlag(14)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">a prediction as to the direction in which the jellyfish population may spread</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(14,'A')"><input type="radio" value="A" name="q14"><span class="opt-letter">A</span><span>Section A</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(14,'B')"><input type="radio" value="B" name="q14"><span class="opt-letter">B</span><span>Section B</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(14,'C')"><input type="radio" value="C" name="q14"><span class="opt-letter">C</span><span>Section C</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(14,'D')"><input type="radio" value="D" name="q14"><span class="opt-letter">D</span><span>Section D</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(14,'E')"><input type="radio" value="E" name="q14"><span class="opt-letter">E</span><span>Section E</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(14,'F')"><input type="radio" value="F" name="q14"><span class="opt-letter">F</span><span>Section F</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(14,'G')"><input type="radio" value="G" name="q14"><span class="opt-letter">G</span><span>Section G</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-15">
+              <div class="q-num">15</div>
+              <button class="flag-btn" id="flag-15" onclick="toggleFlag(15)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">a description of some physical characteristics of jellyfish</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(15,'A')"><input type="radio" value="A" name="q15"><span class="opt-letter">A</span><span>Section A</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(15,'B')"><input type="radio" value="B" name="q15"><span class="opt-letter">B</span><span>Section B</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(15,'C')"><input type="radio" value="C" name="q15"><span class="opt-letter">C</span><span>Section C</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(15,'D')"><input type="radio" value="D" name="q15"><span class="opt-letter">D</span><span>Section D</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(15,'E')"><input type="radio" value="E" name="q15"><span class="opt-letter">E</span><span>Section E</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(15,'F')"><input type="radio" value="F" name="q15"><span class="opt-letter">F</span><span>Section F</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(15,'G')"><input type="radio" value="G" name="q15"><span class="opt-letter">G</span><span>Section G</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-16">
+              <div class="q-num">16</div>
+              <button class="flag-btn" id="flag-16" onclick="toggleFlag(16)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">an account of the consequences of jellyfish as lone survivors</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(16,'A')"><input type="radio" value="A" name="q16"><span class="opt-letter">A</span><span>Section A</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(16,'B')"><input type="radio" value="B" name="q16"><span class="opt-letter">B</span><span>Section B</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(16,'C')"><input type="radio" value="C" name="q16"><span class="opt-letter">C</span><span>Section C</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(16,'D')"><input type="radio" value="D" name="q16"><span class="opt-letter">D</span><span>Section D</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(16,'E')"><input type="radio" value="E" name="q16"><span class="opt-letter">E</span><span>Section E</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(16,'F')"><input type="radio" value="F" name="q16"><span class="opt-letter">F</span><span>Section F</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(16,'G')"><input type="radio" value="G" name="q16"><span class="opt-letter">G</span><span>Section G</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-17">
+              <div class="q-num">17</div>
+              <button class="flag-btn" id="flag-17" onclick="toggleFlag(17)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">suggestions on how to avoid further jellyfish invasions</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(17,'A')"><input type="radio" value="A" name="q17"><span class="opt-letter">A</span><span>Section A</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(17,'B')"><input type="radio" value="B" name="q17"><span class="opt-letter">B</span><span>Section B</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(17,'C')"><input type="radio" value="C" name="q17"><span class="opt-letter">C</span><span>Section C</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(17,'D')"><input type="radio" value="D" name="q17"><span class="opt-letter">D</span><span>Section D</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(17,'E')"><input type="radio" value="E" name="q17"><span class="opt-letter">E</span><span>Section E</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(17,'F')"><input type="radio" value="F" name="q17"><span class="opt-letter">F</span><span>Section F</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(17,'G')"><input type="radio" value="G" name="q17"><span class="opt-letter">G</span><span>Section G</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q18–19 Choose TWO -->
+          <div class="q-section">
+            <div class="q-section-title">Questions 18–19</div>
+            <div class="q-section-inst"><em>The list below gives some effects that jellyfish have had on the world.</em><br>Which <strong>TWO</strong> of these effects are mentioned by the writer of the text?</div>
+
+            <div class="q-row" id="anchor-18">
+              <div class="q-num" style="min-width:60px">18–19</div>
+              <button class="flag-btn" id="flag-18" onclick="toggleFlag(18)">🚩</button>
+              <div class="q-content">
+                <div class="mcq-options" id="grp-1819">
+                  <label class="mcq-opt" onclick="selectCB('1819','A',2)"><input type="checkbox" name="q1819" value="A"><span class="opt-letter">A</span><span>They have damaged the tourism industry in some areas.</span></label>
+                  <label class="mcq-opt" onclick="selectCB('1819','B',2)"><input type="checkbox" name="q1819" value="B"><span class="opt-letter">B</span><span>They have led to a reduction in the oceans' oxygen levels.</span></label>
+                  <label class="mcq-opt" onclick="selectCB('1819','C',2)"><input type="checkbox" name="q1819" value="C"><span class="opt-letter">C</span><span>They have contributed to the decline in the Black Sea anchovy population.</span></label>
+                  <label class="mcq-opt" onclick="selectCB('1819','D',2)"><input type="checkbox" name="q1819" value="D"><span class="opt-letter">D</span><span>They have caused the shrimp business in the Gulf of Mexico to shut down.</span></label>
+                  <label class="mcq-opt" onclick="selectCB('1819','E',2)"><input type="checkbox" name="q1819" value="E"><span class="opt-letter">E</span><span>They have created financial hardship in the fishing industry.</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q20–21 Choose TWO -->
+          <div class="q-section">
+            <div class="q-section-title">Questions 20–21</div>
+            <div class="q-section-inst">Which <strong>TWO</strong> of the following are possible causes of an increase in jellyfish numbers?</div>
+
+            <div class="q-row" id="anchor-20">
+              <div class="q-num" style="min-width:60px">20–21</div>
+              <button class="flag-btn" id="flag-20" onclick="toggleFlag(20)">🚩</button>
+              <div class="q-content">
+                <div class="mcq-options" id="grp-2021">
+                  <label class="mcq-opt" onclick="selectCB('2021','A',2)"><input type="checkbox" name="q2021" value="A"><span class="opt-letter">A</span><span>a shortage of small fish in the oceans</span></label>
+                  <label class="mcq-opt" onclick="selectCB('2021','B',2)"><input type="checkbox" name="q2021" value="B"><span class="opt-letter">B</span><span>the dumping of chemicals into the oceans</span></label>
+                  <label class="mcq-opt" onclick="selectCB('2021','C',2)"><input type="checkbox" name="q2021" value="C"><span class="opt-letter">C</span><span>a decline in biodiversity in the oceans</span></label>
+                  <label class="mcq-opt" onclick="selectCB('2021','D',2)"><input type="checkbox" name="q2021" value="D"><span class="opt-letter">D</span><span>more competition among other fish in the oceans</span></label>
+                  <label class="mcq-opt" onclick="selectCB('2021','E',2)"><input type="checkbox" name="q2021" value="E"><span class="opt-letter">E</span><span>a decrease in seabird populations</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q22–26 Sentence completion -->
+          <div class="q-section">
+            <div class="q-section-title">Questions 22–26</div>
+            <div class="q-section-inst">Complete the sentences below. Write <strong>ONE WORD ONLY</strong> from the passage for each answer.</div>
+
+            <div class="q-row" id="anchor-22">
+              <div class="q-num">22</div>
+              <button class="flag-btn" id="flag-22" onclick="toggleFlag(22)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">Some fish in the oceans may be unable to sustain their population as the jellyfish eat their </span>
+                <input class="fill-input" id="ans-22" oninput="saveAnswer(22)" placeholder="…">
+                <span class="q-label">.</span>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-23">
+              <div class="q-num">23</div>
+              <button class="flag-btn" id="flag-23" onclick="toggleFlag(23)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">The state of jellyfish becoming the main ocean species has been named </span>
+                <input class="fill-input" id="ans-23" oninput="saveAnswer(23)" placeholder="…">
+                <span class="q-label">.</span>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-24">
+              <div class="q-num">24</div>
+              <button class="flag-btn" id="flag-24" onclick="toggleFlag(24)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">Increasing numbers of jellyfish can damage </span>
+                <input class="fill-input" id="ans-24" oninput="saveAnswer(24)" placeholder="…">
+                <span class="q-label"> used for commercial fishing.</span>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-25">
+              <div class="q-num">25</div>
+              <button class="flag-btn" id="flag-25" onclick="toggleFlag(25)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">Understanding basic facts about jellyfish, such as the </span>
+                <input class="fill-input" id="ans-25" oninput="saveAnswer(25)" placeholder="…">
+                <span class="q-label"> of the ocean which suits them best, may help control their numbers.</span>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-26">
+              <div class="q-num">26</div>
+              <button class="flag-btn" id="flag-26" onclick="toggleFlag(26)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">Richardson believes it is better to direct attention to </span>
+                <input class="fill-input" id="ans-26" oninput="saveAnswer(26)" placeholder="…">
+                <span class="q-label">, instead of just trying to solve existing problems.</span>
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- ══════ PASSAGE 3 QUESTIONS ══════ -->
+      <div class="questions-block" id="questions-3">
+      <div class="q-section">
+            <div class="q-section-title">Questions 27–32</div>
+            <div class="q-section-inst">Choose the correct answer.</div>
+
+            <div class="q-row" id="anchor-27">
+              <div class="q-num">27</div>
+              <button class="flag-btn" id="flag-27" onclick="toggleFlag(27)">🚩</button>
+              <div class="q-content">
+                <div class="q-label" style="font-weight:600;margin-bottom:6px">What are we told about Daniel Everett in the first paragraph?</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(27,'A')"><input type="radio" value="A" name="q27"><span class="opt-letter">A</span><span>He has lived among the Pirahã since 1977.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(27,'B')"><input type="radio" value="B" name="q27"><span class="opt-letter">B</span><span>It took him seven years to learn the Pirahã language.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(27,'C')"><input type="radio" value="C" name="q27"><span class="opt-letter">C</span><span>No one would publish his research for three decades.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(27,'D')"><input type="radio" value="D" name="q27"><span class="opt-letter">D</span><span>Studying the Pirahã language is the focus of his work.</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-28">
+              <div class="q-num">28</div>
+              <button class="flag-btn" id="flag-28" onclick="toggleFlag(28)">🚩</button>
+              <div class="q-content">
+                <div class="q-label" style="font-weight:600;margin-bottom:6px">Which of the following is the best summary of the second paragraph?</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(28,'A')"><input type="radio" value="A" name="q28"><span class="opt-letter">A</span><span>Humans are the only species to be linguistically creative.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(28,'B')"><input type="radio" value="B" name="q28"><span class="opt-letter">B</span><span>Humans, bees, birds and whales share a characteristic.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(28,'C')"><input type="radio" value="C" name="q28"><span class="opt-letter">C</span><span>Human language is not fully understood by scientists.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(28,'D')"><input type="radio" value="D" name="q28"><span class="opt-letter">D</span><span>Humans are the only species to use syntax.</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-29">
+              <div class="q-num">29</div>
+              <button class="flag-btn" id="flag-29" onclick="toggleFlag(29)">🚩</button>
+              <div class="q-content">
+                <div class="q-label" style="font-weight:600;margin-bottom:6px">Why does the writer refer to subordinate clauses?</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(29,'A')"><input type="radio" value="A" name="q29"><span class="opt-letter">A</span><span>to criticise the general approach of linguistics</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(29,'B')"><input type="radio" value="B" name="q29"><span class="opt-letter">B</span><span>to compare two features of the Pirahã language</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(29,'C')"><input type="radio" value="C" name="q29"><span class="opt-letter">C</span><span>to explain why the Pirahã language is difficult to learn</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(29,'D')"><input type="radio" value="D" name="q29"><span class="opt-letter">D</span><span>to exemplify an unusual feature of the Pirahã language</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-30">
+              <div class="q-num">30</div>
+              <button class="flag-btn" id="flag-30" onclick="toggleFlag(30)">🚩</button>
+              <div class="q-content">
+                <div class="q-label" style="font-weight:600;margin-bottom:6px">What point does the writer make about the work of Whorf?</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(30,'A')"><input type="radio" value="A" name="q30"><span class="opt-letter">A</span><span>He thought that numbers were common to all human languages.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(30,'B')"><input type="radio" value="B" name="q30"><span class="opt-letter">B</span><span>His theory might be supported by Everett's research.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(30,'C')"><input type="radio" value="C" name="q30"><span class="opt-letter">C</span><span>His research enabled him to find a new life among the Pirahã.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(30,'D')"><input type="radio" value="D" name="q30"><span class="opt-letter">D</span><span>He predicted that people like the Pirahã would never be found.</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-31">
+              <div class="q-num">31</div>
+              <button class="flag-btn" id="flag-31" onclick="toggleFlag(31)">🚩</button>
+              <div class="q-content">
+                <div class="q-label" style="font-weight:600;margin-bottom:6px">The writer refers to the Warlpiri people in order to</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(31,'A')"><input type="radio" value="A" name="q31"><span class="opt-letter">A</span><span>suggest the Pirahã be taught to count in English.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(31,'B')"><input type="radio" value="B" name="q31"><span class="opt-letter">B</span><span>show how tribal peoples learn a foreign language.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(31,'C')"><input type="radio" value="C" name="q31"><span class="opt-letter">C</span><span>compare counting in English and Portuguese.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(31,'D')"><input type="radio" value="D" name="q31"><span class="opt-letter">D</span><span>illustrate the uniqueness of the Pirahã.</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-32">
+              <div class="q-num">32</div>
+              <button class="flag-btn" id="flag-32" onclick="toggleFlag(32)">🚩</button>
+              <div class="q-content">
+                <div class="q-label" style="font-weight:600;margin-bottom:6px">What is Everett's point about the Pirahã's intellectual capacities?</div>
+                <div class="mcq-options">
+                  <label class="mcq-opt" onclick="selectMCQ(32,'A')"><input type="radio" value="A" name="q32"><span class="opt-letter">A</span><span>Pirahã students have not graduated from universities.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(32,'B')"><input type="radio" value="B" name="q32"><span class="opt-letter">B</span><span>He does not want people to criticise their intelligence.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(32,'C')"><input type="radio" value="C" name="q32"><span class="opt-letter">C</span><span>Their isolation makes it difficult to evaluate their intelligence.</span></label>
+                  <label class="mcq-opt" onclick="selectMCQ(32,'D')"><input type="radio" value="D" name="q32"><span class="opt-letter">D</span><span>He believes their language is more complex than their neighbours'.</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q33–36 Summary with word bank -->
+          <div class="q-section">
+            <div class="q-section-title">Questions 33–36</div>
+            <div class="q-section-inst">Complete the summary using the list of words, A–I, below.<br>Write the correct letter, <strong>A–I</strong>, in boxes 33–36.</div>
+            <div class="passage-section-head">Everett's explanation</div>
+
+            <div class="word-bank">
+              <div class="wb-item">A present</div>
+              <div class="wb-item">B past</div>
+              <div class="wb-item">C time</div>
+              <div class="wb-item">D future</div>
+              <div class="wb-item">E culture</div>
+              <div class="wb-item">F grammar</div>
+              <div class="wb-item">G art</div>
+              <div class="wb-item">H individuality</div>
+              <div class="wb-item">I children</div>
+            </div>
+
+            <div class="q-row" id="anchor-33">
+              <div class="q-num">33</div>
+              <button class="flag-btn" id="flag-33" onclick="toggleFlag(33)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">Everett believes that a group's language is a product of their </span>
+                <select class="fill-input letter-select" id="ans-33" onchange="saveAnswer(33)" style="min-width:70px">
+                  <option value="">—</option>
+                  <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                  <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                  <option value="G">G</option><option value="H">H</option><option value="I">I</option>
+                </select>
+                <span class="q-label"> and thus language is infinitely varied.</span>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-34">
+              <div class="q-num">34</div>
+              <button class="flag-btn" id="flag-34" onclick="toggleFlag(34)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">During the time he spent living among them, he observed that the Pirahã only place value on the </span>
+                <select class="fill-input letter-select" id="ans-34" onchange="saveAnswer(34)" style="min-width:70px">
+                  <option value="">—</option>
+                  <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                  <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                  <option value="G">G</option><option value="H">H</option><option value="I">I</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-35">
+              <div class="q-num">35</div>
+              <button class="flag-btn" id="flag-35" onclick="toggleFlag(35)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">and have no </span>
+                <select class="fill-input letter-select" id="ans-35" onchange="saveAnswer(35)" style="min-width:70px">
+                  <option value="">—</option>
+                  <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                  <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                  <option value="G">G</option><option value="H">H</option><option value="I">I</option>
+                </select>
+                <span class="q-label"> to describe completed events.</span>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-36">
+              <div class="q-num">36</div>
+              <button class="flag-btn" id="flag-36" onclick="toggleFlag(36)">🚩</button>
+              <div class="q-content">
+                <span class="q-label">Similarly, the types of names they use reflect the fact that they do not celebrate </span>
+                <select class="fill-input letter-select" id="ans-36" onchange="saveAnswer(36)" style="min-width:70px">
+                  <option value="">—</option>
+                  <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                  <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                  <option value="G">G</option><option value="H">H</option><option value="I">I</option>
+                </select>
+                <span class="q-label">.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q37–40 YES/NO/NOT GIVEN -->
+          <div class="q-section">
+            <div class="q-section-title">Questions 37–40</div>
+            <div class="q-section-inst">Choose <strong>YES</strong> if the statement agrees with the claims of the writer, choose <strong>NO</strong> if the statement contradicts the claims of the writer, or <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this.</div>
+
+            <div class="q-row" id="anchor-37">
+              <div class="q-num">37</div>
+              <button class="flag-btn" id="flag-37" onclick="toggleFlag(37)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">Everett was surprised by the way his research was greeted.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(37,'YES')">YES</button>
+                  <button class="tf-btn" onclick="selectTF(37,'NO')">NO</button>
+                  <button class="tf-btn" onclick="selectTF(37,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-38">
+              <div class="q-num">38</div>
+              <button class="flag-btn" id="flag-38" onclick="toggleFlag(38)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">Chomsky has been critical of Everett's research methodology.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(38,'YES')">YES</button>
+                  <button class="tf-btn" onclick="selectTF(38,'NO')">NO</button>
+                  <button class="tf-btn" onclick="selectTF(38,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-39">
+              <div class="q-num">39</div>
+              <button class="flag-btn" id="flag-39" onclick="toggleFlag(39)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">If 'recursion' as a universal concept is disproved, Chomsky's ideas about language would be wrong.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(39,'YES')">YES</button>
+                  <button class="tf-btn" onclick="selectTF(39,'NO')">NO</button>
+                  <button class="tf-btn" onclick="selectTF(39,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-row" id="anchor-40">
+              <div class="q-num">40</div>
+              <button class="flag-btn" id="flag-40" onclick="toggleFlag(40)">🚩</button>
+              <div class="q-content">
+                <div class="q-label">The Pirahã will benefit from their new-found status among academics.</div>
+                <div class="tf-options">
+                  <button class="tf-btn" onclick="selectTF(40,'YES')">YES</button>
+                  <button class="tf-btn" onclick="selectTF(40,'NO')">NO</button>
+                  <button class="tf-btn" onclick="selectTF(40,'NOT GIVEN')">NOT GIVEN</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end #main -->
+
+
+
+<!-- FLAG PANEL -->
+<div id="flag-panel">
+  <div class="fp-header">
+    <div class="fp-title">🚩 Câu đã đánh dấu</div>
+    <button class="fp-close" onclick="closeFlagPanel()">✕</button>
+  </div>
+  <div id="flag-list"></div>
+</div>
+
+<!-- ANSWER SHEET OVERLAY -->
+<div id="answer-sheet">
+  <div class="as-box">
+    <div class="as-title">Answer Sheet</div>
+    <div class="as-sub">IELTS Reading Test 6 — Đáp án của bạn (chụp màn hình để lưu)</div>
+    <div class="as-grid" id="as-grid"></div>
+    <button class="as-close" onclick="closeAnswerSheet()">Đóng</button>
+  </div>
+</div>
+
+<!-- SUBMIT MODAL -->
+<div class="modal-overlay" id="modal-submit">
+  <div class="modal-box">
+    <div class="modal-title">Xác nhận nộp bài</div>
+    <div class="modal-body" id="modal-submit-body">Bạn còn <strong id="unanswered-count">0</strong> câu chưa trả lời. Bạn có chắc muốn nộp bài không?</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeSubmitModal()">Tiếp tục làm bài</button>
+      <button class="btn-confirm" onclick="submitTest()">Nộp bài</button>
+    </div>
+  </div>
+</div>
+
+<!-- TIMEOUT MODAL -->
+<div class="modal-overlay" id="modal-timeout">
+  <div class="modal-box">
+    <div class="modal-title">⏰ Hết giờ!</div>
+    <div class="modal-body">Thời gian làm bài đã kết thúc. Hệ thống sẽ tự động nộp bài của bạn.</div>
+    <div class="modal-actions">
+      <button class="btn-confirm" onclick="submitTest()">Xem kết quả</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="result-screen">
+  <div class="result-card">
+    <div class="result-topbar">
+      <div class="result-topbar-left">
+        <div>
+          <div class="result-logo">G.EDU</div>
+          <div class="result-test-name">IELTS Reading Test 6</div>
+        </div>
+        <div class="result-score-pill">
+          <div class="result-score-circle" id="res-score">—</div>
+          <div><span class="num" id="res-score-num">—</span><span class="denom"> / 40</span></div>
+        </div>
+        <div class="result-student-pill" id="res-student"></div>
+      </div>
+      <button class="btn-review" onclick="enterReviewMode()">📖 Xem lại bài làm</button>
+    </div>
+    <hr class="result-divider">
+    <div class="result-review-title">Đáp án của bạn (40 câu)</div>
+    <div class="review-grid" id="review-grid"></div>
+    <div class="result-note">
+      ℹ️ Đáp án đúng/sai sẽ được đối chiếu cùng giáo viên khi chữa bài.
+    </div>
+    <div class="result-note result-note-warn">
+      📸 Vui lòng <strong>chụp lại màn hình đáp án này</strong> để lưu bài làm — phòng trường hợp thoát trang hoặc đổi thiết bị làm mất kết quả.
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODE BANNER -->
+<div id="review-banner">
+  <span>📖 Đang xem lại bài làm — chỉ xem, không thể chỉnh sửa đáp án</span>
+  <button class="rb-back" onclick="exitReviewMode()">← Quay lại kết quả</button>
+</div>
+
+
+<script>
+// ── CORRECT ANSWERS (base64 obfuscated) ──
+const _k = atob("eyIxIjogIlRSVUUiLCAiMiI6ICJUUlVFIiwgIjMiOiAiRkFMU0UiLCAiNCI6ICJOT1QgR0lWRU4iLCAiNSI6ICJGQUxTRSIsICI2IjogIlRSVUUiLCAiNyI6ICJoZWFkIiwgIjgiOiAiY29tbXVuaWNhdGlvbiIsICI5IjogImVuZW1pZXMiLCAiMTAiOiAibG9jYXRpb24iLCAiMTEiOiAic3BlY2llcyIsICIxMiI6ICJjb3JhbHMiLCAiMTMiOiAic2VhaG9yc2UiLCAiMTQiOiAiRSIsICIxNSI6ICJBIiwgIjE2IjogIkYiLCAiMTciOiAiRyIsICIxOC0xOSI6IFsiQyIsICJFIl0sICIyMC0yMSI6IFsiQSIsICJCIl0sICIyMiI6ICJlZ2dzIiwgIjIzIjogIm1vbm9jdWx0dXJlIiwgIjI0IjogIm5ldHMiLCAiMjUiOiAidGVtcGVyYXR1cmUiLCAiMjYiOiAicHJldmVudGlvbiIsICIyNyI6ICJEIiwgIjI4IjogIkEiLCAiMjkiOiAiRCIsICIzMCI6ICJCIiwgIjMxIjogIkQiLCAiMzIiOiAiQiIsICIzMyI6ICJFIiwgIjM0IjogIkEiLCAiMzUiOiAiRiIsICIzNiI6ICJIIiwgIjM3IjogIk5PIiwgIjM4IjogIk5PVCBHSVZFTiIsICIzOSI6ICJZRVMiLCAiNDAiOiAiTk8ifQ==");
+let CORRECT;
+try{ CORRECT = JSON.parse(_k); }catch(e){ CORRECT={}; }
+
+// ── STATE ──
+let studentName='', studentClass='';
+let answers={};   // {1:'TRUE', 18:'C', '18-19':['C','E'], ...}
+let flags={};     // {1:true, ...}
+let submitted=false;
+let timerInterval=null;
+let timeLeft=60*60;
+let submitResultData=null; // {score, payload} once submitted, persisted to localStorage
+
+const GAS_URL='https://script.google.com/macros/s/AKfycbze-ULqfpnB5IcJxAvg2m7IfSqkoUY4JmoHnjvpuGvxodzmLbhHHlcqxfcnha2aahY/exec';
+
+// ── LOGIN ──
+function doLogin(){
+  const n=document.getElementById('inp-name').value.trim().toUpperCase();
+  const c=document.getElementById('inp-class').value.trim().toUpperCase();
+  if(!n||!c){document.getElementById('login-error').textContent='Vui lòng nhập đầy đủ Họ tên và Lớp.';return;}
+  studentName=n; studentClass=c;
+  document.getElementById('sb-name').textContent=n;
+  document.getElementById('sb-class').textContent=c;
+
+  const key=lsKey();
+
+  // ── Scenario 2: already submitted before -> jump straight to result, no GAS re-send ──
+  try{
+    const subFlag=localStorage.getItem(key+'_submitted');
+    if(subFlag==='1'){
+      const savedResult=localStorage.getItem(key+'_result');
+      if(savedResult){
+        const r=JSON.parse(savedResult);
+        answers=r.answers||{};
+        flags={};
+        try{ const sf=localStorage.getItem(key+'_flags'); if(sf) flags=JSON.parse(sf)||{}; }catch(e){}
+        submitted=true;
+        _submitDone=true;
+        document.getElementById('login-screen').style.display='none';
+        buildQMap();
+        restoreUI();
+        showResult(r.score, r.payload);
+        return;
+      }
+    }
+  }catch(e){}
+
+  // ── Scenario 1: not submitted yet -> restore in-progress work ──
+  try{
+    const saved=localStorage.getItem(key);
+    if(saved){ answers=JSON.parse(saved)||{}; }
+    const sf=localStorage.getItem(key+'_flags');
+    if(sf){ flags=JSON.parse(sf)||{}; }
+    const savedTime=localStorage.getItem(key+'_timeleft');
+    if(savedTime!==null && !isNaN(parseInt(savedTime))){
+      const t=parseInt(savedTime);
+      if(t>0) timeLeft=t; else timeLeft=0;
+    }
+  }catch(e){}
+  restoreUI();
+  buildQMap();
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('timer-bar').style.display='flex';
+  if(timeLeft<=0){
+    // time had already run out while away -> auto-submit immediately
+    document.getElementById('modal-timeout').classList.add('open');
+    submitTest();
+    return;
+  }
+  startTimer();
+}
+
+// key for localStorage
+function lsKey(){ return `rt6_${studentName}_${studentClass}`; }
+
+function saveToLS(){
+  try{
+    localStorage.setItem(lsKey(), JSON.stringify(answers));
+    localStorage.setItem(lsKey()+'_flags', JSON.stringify(flags));
+  }catch(e){}
+}
+
+// ── TIMER ──
+function startTimer(){
+  updateTimerDisplay();
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    try{ localStorage.setItem(lsKey()+'_timeleft', timeLeft); }catch(e){}
+    if(timeLeft<=0){
+      clearInterval(timerInterval);
+      if(!submitted){
+        document.getElementById('modal-timeout').classList.add('open');
+        autoSubmit();
+      }
+    }
+    if(timeLeft===300) document.getElementById('timer-bar').classList.add('warning');
+  },1000);
+}
+function updateTimerDisplay(){
+  const m=Math.floor(timeLeft/60), s=timeLeft%60;
+  document.getElementById('timer-display').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+// ── SAVE ANSWER ──
+function saveAnswer(n){
+  const el=document.getElementById('ans-'+n);
+  if(el) answers[n]=el.value.trim();
+  saveToLS(); updateQCell(n);
+}
+
+function selectTF(n, val){
+  answers[n]=val;
+  saveToLS();
+  // update buttons
+  const row=document.getElementById('anchor-'+n);
+  if(row) row.querySelectorAll('.tf-btn').forEach(b=>{ b.classList.toggle('selected', b.textContent===val); });
+  updateQCell(n);
+}
+
+function selectMCQ(n, val){
+  answers[n]=val;
+  saveToLS();
+  const row=document.getElementById('anchor-'+n);
+  if(row) row.querySelectorAll('.mcq-opt').forEach(o=>{
+    const inp=o.querySelector('input');
+    if(inp) inp.checked=(inp.value===val);
+    o.classList.toggle('selected', inp&&inp.value===val);
+  });
+  updateQCell(n);
+}
+
+// checkbox (choose 2)
+function selectCB(grpId, val, max){
+  const grpKey = grpId==='1819'?'18-19':'20-21';
+  const grp=document.getElementById('grp-'+grpId);
+  if(!grp) return;
+  const allCB=grp.querySelectorAll('input[type=checkbox]');
+  let current=answers[grpKey]||[];
+  if(current.includes(val)){
+    current=current.filter(v=>v!==val);
+  } else {
+    if(current.length>=max){
+      // deselect first
+      current.shift();
+    }
+    current.push(val);
+  }
+  answers[grpKey]=current;
+  // sync checkboxes
+  allCB.forEach(cb=>{
+    cb.checked=current.includes(cb.value);
+    cb.closest('.mcq-opt').classList.toggle('selected', current.includes(cb.value));
+  });
+  saveToLS();
+  const baseN=grpId==='1819'?18:20;
+  updateQCell(baseN); updateQCell(baseN+1);
+}
+
+// ── RESTORE UI after login ──
+function restoreUI(){
+  // fill-in
+  [7,8,9,10,11,12,13,22,23,24,25,26,33,34,35,36].forEach(n=>{
+    const el=document.getElementById('ans-'+n);
+    if(el && answers[n]) el.value=answers[n];
+  });
+  // TF/YN
+  [1,2,3,4,5,6,37,38,39,40].forEach(n=>{
+    if(answers[n]) selectTF(n,answers[n]);
+  });
+  // MCQ single
+  [14,15,16,17,27,28,29,30,31,32].forEach(n=>{
+    if(answers[n]) selectMCQ(n,answers[n]);
+  });
+  // checkbox groups
+  ['1819','2021'].forEach(grpId=>{
+    const grpKey=grpId==='1819'?'18-19':'20-21';
+    const grp=document.getElementById('grp-'+grpId);
+    if(!grp) return;
+    const current=answers[grpKey]||[];
+    grp.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+      cb.checked=current.includes(cb.value);
+      cb.closest('.mcq-opt').classList.toggle('selected', current.includes(cb.value));
+    });
+  });
+  // flags
+  Object.keys(flags).forEach(n=>{ if(flags[n]) applyFlagUI(parseInt(n)); });
+}
+
+// ── QUESTION MAP ──
+function buildQMap(){
+  const map=document.getElementById('q-map');
+  map.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const cell=document.createElement('div');
+    cell.className='q-cell';
+    cell.id='qcell-'+i;
+    cell.textContent=i;
+    cell.onclick=()=>scrollToQ(i);
+    map.appendChild(cell);
+  }
+  // initial states
+  for(let i=1;i<=40;i++) updateQCell(i);
+}
+
+function updateQCell(n){
+  const cell=document.getElementById('qcell-'+n);
+  if(!cell) return;
+  const hasAns=isAnswered(n);
+  const isFlagged=flags[n];
+  cell.classList.toggle('answered', hasAns);
+  cell.classList.toggle('flagged', !!isFlagged);
+}
+
+function isAnswered(n){
+  if(n>=18&&n<=19) return (answers['18-19']||[]).length>0;
+  if(n>=20&&n<=21) return (answers['20-21']||[]).length>0;
+  const v=answers[n];
+  return v!==undefined && v!==null && String(v).trim()!=='';
+}
+
+function scrollToQ(n){
+  // figure out which passage and switch tab
+  if(n<=13) switchPassage(1);
+  else if(n<=26) switchPassage(2);
+  else switchPassage(3);
+  setTimeout(()=>{
+    const el=document.getElementById('anchor-'+n);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+  },80);
+}
+
+// ── PASSAGE TABS ──
+function switchPassage(n){
+  document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('active',i===n-1));
+  document.querySelectorAll('.passage-block').forEach((b,i)=>b.classList.toggle('active',i===n-1));
+  document.querySelectorAll('.questions-block').forEach((b,i)=>b.classList.toggle('active',i===n-1));
+}
+
+// ── FLAGS ──
+function toggleFlag(n){
+  flags[n]=!flags[n];
+  applyFlagUI(n);
+  saveToLS();
+  updateQCell(n);
+}
+function applyFlagUI(n){
+  const btn=document.getElementById('flag-'+n);
+  if(btn) btn.classList.toggle('active', !!flags[n]);
+}
+
+function openFlagPanel(){
+  const list=document.getElementById('flag-list');
+  list.innerHTML='';
+  const flagged=Object.keys(flags).filter(k=>flags[k]).sort((a,b)=>+a-+b);
+  if(flagged.length===0){
+    list.innerHTML='<p style="color:#888;font-size:13px;text-align:center;padding:20px">Chưa có câu nào được đánh dấu.</p>';
+  } else {
+    flagged.forEach(k=>{
+      const n=parseInt(k);
+      let ans='(chưa trả lời)';
+      if(n>=18&&n<=19){ const a=answers['18-19']; if(a&&a.length) ans=a.join(', '); }
+      else if(n>=20&&n<=21){ const a=answers['20-21']; if(a&&a.length) ans=a.join(', '); }
+      else if(answers[n]) ans=answers[n];
+      const item=document.createElement('div');
+      item.className='fp-item';
+      item.innerHTML=`<div class="fp-item-num">Câu ${n}</div><div class="fp-item-ans">Đáp án: ${ans}</div>`;
+      item.onclick=()=>{ closeFlagPanel(); scrollToQ(n); };
+      list.appendChild(item);
+    });
+  }
+  document.getElementById('flag-panel').classList.add('open');
+}
+function closeFlagPanel(){ document.getElementById('flag-panel').classList.remove('open'); }
+
+// ── ANSWER SHEET ──
+function openAnswerSheet(){
+  const grid=document.getElementById('as-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    let ans='—';
+    if(i>=18&&i<=19){ const a=answers['18-19']; if(a&&a.length) ans=a.join(','); }
+    else if(i>=20&&i<=21){ const a=answers['20-21']; if(a&&a.length) ans=a.join(','); }
+    else if(answers[i]) ans=answers[i];
+    const cell=document.createElement('div');
+    cell.className='as-cell';
+    cell.innerHTML=`<div class="as-cell-num">Q${i}</div><div class="as-cell-ans">${ans}</div>`;
+    grid.appendChild(cell);
+  }
+  document.getElementById('answer-sheet').classList.add('open');
+}
+function closeAnswerSheet(){ document.getElementById('answer-sheet').classList.remove('open'); }
+
+// ── SUBMIT ──
+function openSubmitModal(){
+  let unanswered=0;
+  for(let i=1;i<=40;i++){
+    if(i===19||i===21) continue; // handled by group
+    if(!isAnswered(i)) unanswered++;
+  }
+  document.getElementById('unanswered-count').textContent=unanswered;
+  document.getElementById('modal-submit').classList.add('open');
+}
+function closeSubmitModal(){ document.getElementById('modal-submit').classList.remove('open'); }
+
+function autoSubmit(){ submitTest(); }
+
+let _submitDone=false;
+function submitTest(){
+  if(_submitDone) return;
+  _submitDone=true;
+  submitted=true;
+  clearInterval(timerInterval);
+  document.getElementById('modal-submit').classList.remove('open');
+  document.getElementById('modal-timeout').classList.remove('open');
+
+  // calc score
+  let score=0;
+  for(let i=1;i<=40;i++){
+    if(i===19||i===21) continue;
+    if(i===18){
+      const ca=(CORRECT['18-19']||[]).map(v=>v.toLowerCase()).sort();
+      const sa=(answers['18-19']||[]).map(v=>v.toLowerCase()).sort();
+      if(JSON.stringify(ca)===JSON.stringify(sa)) score+=2;
+      continue;
+    }
+    if(i===20){
+      const ca=(CORRECT['20-21']||[]).map(v=>v.toLowerCase()).sort();
+      const sa=(answers['20-21']||[]).map(v=>v.toLowerCase()).sort();
+      if(JSON.stringify(ca)===JSON.stringify(sa)) score+=2;
+      continue;
+    }
+    const correct=(CORRECT[i]||'').toString().toLowerCase().trim();
+    const student=(answers[i]||'').toString().toLowerCase().trim();
+    if(correct&&student&&correct===student) score++;
+  }
+
+  // build answers payload
+  const payload={};
+  for(let i=1;i<=40;i++){
+    if(i===19||i===21){payload[i]='';continue;}
+    if(i===18){ payload[i]=(answers['18-19']||[]).join(','); continue; }
+    if(i===20){ payload[i]=(answers['20-21']||[]).join(','); continue; }
+    payload[i]=answers[i]||'';
+  }
+
+  // send to GAS — plain UTF-8 values (URLSearchParams handles encoding), fetch primary with Image beacon as fallback only
+  const params=new URLSearchParams({
+    test_name:'reading_test6',
+    name: studentName,
+    cls: studentClass,
+    score: score,
+    answers: JSON.stringify(payload)
+  });
+  const url=GAS_URL+'?'+params.toString();
+  fetch(url,{mode:'no-cors'}).catch(()=>{
+    // fetch failed (e.g. blocked) -> fallback beacon so the result still reaches the sheet
+    (new Image()).src=url;
+  });
+
+  // persist submitted state + result so reloading skips straight to the result screen
+  submitResultData={score, payload, answers:JSON.parse(JSON.stringify(answers))};
+  try{
+    localStorage.setItem(lsKey()+'_submitted','1');
+    localStorage.setItem(lsKey()+'_result', JSON.stringify(submitResultData));
+    localStorage.removeItem(lsKey()+'_timeleft');
+  }catch(e){}
+
+  showResult(score, payload);
+}
+
+function showResult(score, payload){
+  document.getElementById('sidebar').style.display='none';
+  document.getElementById('main').style.display='none';
+  document.getElementById('timer-bar').style.display='none';
+  document.getElementById('review-banner').classList.remove('show');
+  document.body.classList.remove('review-mode');
+  const rs=document.getElementById('result-screen');
+  rs.classList.add('show');
+  document.getElementById('res-score').textContent=score;
+  document.getElementById('res-score-num').textContent=score;
+  document.getElementById('res-student').innerHTML=`<strong>${studentName}</strong> &nbsp;|&nbsp; ${studentClass}`;
+  const grid=document.getElementById('review-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    let ans='—';
+    if(i===19||i===21){ ans=''; }
+    else if(i===18){ ans=(answers['18-19']||[]).join(', ')||'—'; }
+    else if(i===20){ ans=(answers['20-21']||[]).join(', ')||'—'; }
+    else ans=payload[i]||'—';
+    if(i===19||i===21) continue;
+    const cell=document.createElement('div');
+    cell.className='rev-cell';
+    cell.innerHTML=`<div class="rev-cell-num">Q${i}</div><div class="rev-cell-ans">${ans}</div>`;
+    grid.appendChild(cell);
+  }
+}
+
+// ── REVIEW MODE: revisit passages/questions read-only after submit ──
+function enterReviewMode(){
+  document.getElementById('result-screen').classList.remove('show');
+  document.getElementById('sidebar').style.display='flex';
+  document.getElementById('main').style.display='flex';
+  document.getElementById('review-banner').classList.add('show');
+  document.body.classList.add('review-mode');
+  switchPassage(1);
+  window.scrollTo(0,0);
+}
+function exitReviewMode(){
+  document.getElementById('sidebar').style.display='none';
+  document.getElementById('main').style.display='none';
+  document.getElementById('review-banner').classList.remove('show');
+  document.body.classList.remove('review-mode');
+  document.getElementById('result-screen').classList.add('show');
+}
+
+// ── HIGHLIGHT ──
+document.addEventListener('mouseup', e=>{
+  if(submitted) return;
+  // ignore mouseup that originated on the toolbar itself (color pick / erase)
+  if(document.getElementById('hl-toolbar').contains(e.target)) return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!sel.toString().trim()) { hideHLToolbar(); return; }
+  const range=sel.getRangeAt(0);
+  const rect=range.getBoundingClientRect();
+  if(rect.width===0 && rect.height===0){ hideHLToolbar(); return; }
+  const tb=document.getElementById('hl-toolbar');
+  tb.style.display='flex';
+  // position:fixed -> coordinates are viewport-relative, no scroll offset needed
+  let left=rect.left+rect.width/2-70;
+  let top=rect.top-44;
+  // keep toolbar within viewport bounds
+  left=Math.max(8, Math.min(left, window.innerWidth-150));
+  if(top<8) top=rect.bottom+10; // flip below selection if not enough room above
+  tb.style.left=left+'px';
+  tb.style.top=top+'px';
+});
+document.addEventListener('mousedown', e=>{
+  if(!document.getElementById('hl-toolbar').contains(e.target)) hideHLToolbar();
+});
+function hideHLToolbar(){ document.getElementById('hl-toolbar').style.display='none'; }
+
+// Prevent the browser's default mousedown behaviour (which collapses the
+// current text selection) when the user presses down on the toolbar itself.
+// Without this, clicking a swatch clears window.getSelection() before the
+// click handler runs, so applyHighlight() would have nothing to act on.
+document.getElementById('hl-toolbar').addEventListener('mousedown', e=>{
+  e.preventDefault();
+});
+
+function applyHighlight(color){
+  const sel=window.getSelection();
+  if(!sel||sel.rangeCount===0||sel.isCollapsed) return;
+  const range=sel.getRangeAt(0);
+  // use TreeWalker to handle cross-node
+  try{
+    const df=range.cloneContents();
+    const span=document.createElement('span');
+    span.className='hl-'+color;
+    span.appendChild(df);
+    range.deleteContents();
+    range.insertNode(span);
+    sel.removeAllRanges();
+  }catch(e){}
+  hideHLToolbar();
+}
+
+function removeHighlight(){
+  const sel=window.getSelection();
+  if(!sel||sel.rangeCount===0||sel.isCollapsed) return;
+  // try to find parent highlight span
+  const node=sel.anchorNode;
+  let el=node.nodeType===3?node.parentNode:node;
+  while(el&&el!==document.body){
+    if(el.classList&&(el.classList.contains('hl-yellow')||el.classList.contains('hl-green')||el.classList.contains('hl-blue')||el.classList.contains('hl-pink'))){
+      const parent=el.parentNode;
+      while(el.firstChild) parent.insertBefore(el.firstChild,el);
+      parent.removeChild(el);
+      break;
+    }
+    el=el.parentNode;
+  }
+  sel.removeAllRanges();
+  hideHLToolbar();
+}
+
+// ── Enter to start ──
+document.getElementById('inp-class').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+document.getElementById('inp-name').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('inp-class').focus(); });
+
+// ── SPLIT PANEL DRAG RESIZE ──
+(function(){
+  const container=document.getElementById('split-container');
+  const divider=document.getElementById('split-divider');
+  const passagePane=document.getElementById('passage-pane');
+  const questionsPane=document.getElementById('questions-pane');
+  if(!container||!divider) return;
+
+  let dragging=false;
+  const MIN_PCT=25, MAX_PCT=75;
+
+  function setSplit(pct){
+    pct=Math.min(MAX_PCT,Math.max(MIN_PCT,pct));
+    passagePane.style.flex='0 0 '+pct+'%';
+    questionsPane.style.flex='1 1 '+(100-pct)+'%';
+    try{ localStorage.setItem('rt6_split_pct', pct); }catch(e){}
+  }
+
+  // restore saved split, default 50%
+  let savedPct=50;
+  try{
+    const sp=localStorage.getItem('rt6_split_pct');
+    if(sp) savedPct=parseFloat(sp);
+  }catch(e){}
+  setSplit(savedPct);
+
+  function startDrag(clientX){
+    dragging=true;
+    divider.classList.add('dragging');
+    document.body.classList.add('resizing');
+  }
+  function moveDrag(clientX){
+    if(!dragging) return;
+    const rect=container.getBoundingClientRect();
+    const pct=((clientX-rect.left)/rect.width)*100;
+    setSplit(pct);
+  }
+  function endDrag(){
+    if(!dragging) return;
+    dragging=false;
+    divider.classList.remove('dragging');
+    document.body.classList.remove('resizing');
+  }
+
+  divider.addEventListener('mousedown', e=>{ e.preventDefault(); startDrag(e.clientX); });
+  window.addEventListener('mousemove', e=>{ if(dragging) moveDrag(e.clientX); });
+  window.addEventListener('mouseup', endDrag);
+
+  // touch support
+  divider.addEventListener('touchstart', e=>{ startDrag(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('touchmove', e=>{ if(dragging) moveDrag(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('touchend', endDrag);
+
+  // double-click divider to reset to 50/50
+  divider.addEventListener('dblclick', ()=>setSplit(50));
+})();
+</script>
+
+</body>
+</html>
