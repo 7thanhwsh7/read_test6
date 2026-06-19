@@ -1725,6 +1725,43 @@ document.getElementById('inp-name').addEventListener('keydown', e=>{ if(e.key===
   // double-click divider to reset to 50/50
   divider.addEventListener('dblclick', ()=>setSplit(50));
 })();
+
+// ── COPY PROTECTION ──
+// Block copying text out of the passage/questions area so students can't
+// paste correct spellings straight into their answers. Selection itself is
+// still allowed (needed for the highlight toolbar) — only the clipboard
+// action and right-click menu are blocked. Form controls (input/select/
+// textarea) are explicitly excluded so students can still type, paste into,
+// and edit their own answers normally.
+(function(){
+  const protectedRoot=document.getElementById('split-container');
+  if(!protectedRoot) return;
+
+  function isFormField(target){
+    return target && target.closest && target.closest('input, select, textarea, [contenteditable="true"]');
+  }
+
+  protectedRoot.addEventListener('copy', e=>{
+    if(isFormField(e.target)) return;
+    e.preventDefault();
+  });
+  protectedRoot.addEventListener('cut', e=>{
+    if(isFormField(e.target)) return;
+    e.preventDefault();
+  });
+  protectedRoot.addEventListener('contextmenu', e=>{
+    if(isFormField(e.target)) return;
+    e.preventDefault();
+  });
+  // Ctrl/Cmd+C as an extra layer (some browsers fire copy inconsistently on touch devices)
+  protectedRoot.addEventListener('keydown', e=>{
+    if(isFormField(e.target)) return;
+    const key=e.key ? e.key.toLowerCase() : '';
+    if((e.ctrlKey||e.metaKey) && (key==='c'||key==='x')){
+      e.preventDefault();
+    }
+  });
+})();
 </script>
 
 </body>
